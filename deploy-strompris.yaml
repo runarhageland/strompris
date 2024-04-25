@@ -18,7 +18,7 @@ spec:
         image: runarh/strompris:v1.0.0
         resources:
           limits:
-            cpu: "900M"
+            cpu: "900m"
             memory: "256Mi"
           requests:
             cpu: "0.5"
