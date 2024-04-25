@@ -16,6 +16,17 @@ spec:
       containers:
       - name: strompris
         image: runarh/strompris:v1.0.0
+        env:
+        - name: strompris_port
+          valueFrom:
+            configMapKeyRef:
+              name: strompris
+              key: port
+        - name: strompris_message
+          valueFrom:
+            configMapKeyRef:
+              name: strompris
+              key: message
         resources:
           limits:
             cpu: "900m"

@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb
+  namespace: database
+  labels:
+    app: mariadb
+spec:
+  selector:
+    matchLabels:
+      app: mariadb
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+      - image: docker.io/library/mariadb:10.10
+        name: mariadb
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mariadb
+              key: password
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: var-lib-mysql
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: var-lib-mysql
+        emptyDir: {}

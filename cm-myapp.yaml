@@ -1,0 +1,9 @@
+apiVersion: v1
+data:
+  message: This is my own MyAPP message v2.X!
+  port: "8083"
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: myapp
+  namespace: myapp
