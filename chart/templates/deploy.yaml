@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: strompris
+  name: {{ .Release.Name }}
 spec:
-  replicas: 2
+  replicas: {{ .Values.replicas }}
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: strompris
-        image: runarh/strompris:v1.0.0
+        image: {{ .Values.imageName }}:v{{ .Chart.AppVersion }}
         resources:
           requests:
             cpu: "100m"
