@@ -3,7 +3,7 @@ kind: Service
 metadata:
   labels:
     app: strompris
-  name: strompris
+    name: strompris
 spec:
   ports:
   - port: 8083

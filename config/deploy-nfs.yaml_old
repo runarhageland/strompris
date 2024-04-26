@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: strompris-nfs
+  name: strompris
+  namespace: strompris
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: strompris-nfs
+  template:
+    metadata:
+      labels:
+        app: strompris-nfs
+    spec:
+      containers:
+      - image: runarh/strompris:v1.0.0
+        name: strompris
+        volumeMounts:
+        - mountPath: "/www/nfs"
+          name: vol-nfs
+      env:
+      - name: strompris_port
+        valueFrom:
+          configMapKeyRef:
+            name: strompris
+            key: port
+      - name: strompris_message
+        valueFrom:
+          configMapKeyRef:
+            name: strompris
+            key: message
+      resources:
+        limits:
+          cpu: "900m"
+          memory: "256Mi"
+        requests:
+          cpu: "0.5"
+          memory: "128Mi"
+      ports:
+      - name: http
+        containerPort: 8083
+        protocol: TCP
+      livenessProbe:
+        httpGet:
+          path: /
+          port: http
+        initialDelaySeconds: 20
+        periodSeconds: 5
+      readinessProbe:
+        httpGet:
+          path: /
+          port: http
+        initialDelaySeconds: 5
+        periodSeconds: 5
+  volumes:
+  - name: vol-nfs
+    persistentVolumeClaim:
+      claimName: pvc-nfs
