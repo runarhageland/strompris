@@ -11,14 +11,14 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      app: strompris
+      app: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: strompris
+        app: {{ .Release.Name }}
     spec:
       containers:
-      - name: strompris
+      - name: {{ .Release.Name }}
         image: {{ .Values.imageName }}:v{{ .Chart.AppVersion }}
         resources:
           requests:
